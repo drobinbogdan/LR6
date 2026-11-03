@@ -132,8 +132,103 @@ Git обозначил несовместимые изменения специ�
 
 *Рисунок 10 — Выполнение отката коммита и проверка результата*
 
-### 3.8. Создание ветки для отчёта
+### 3.8. Создание ветки и оформление отчёта
 
 Для оформления отчёта была создана отдельная ветка `report` с помощью команды `git switch -c report`.
 
-В репозитории была создана папка `screenshots` для хранения изображений, иллюстрирующих выполнение лабораторной работы.
+В репозитории была создана папка `screenshots`, в которую помещены десять снимков экрана, иллюстрирующих выполнение лабораторной работы.
+
+Для исключения служебных файлов macOS из отслеживания системой Git был создан файл `.gitignore`, содержащий запись `.DS_Store`.
+
+После добавления изображений и файла `.gitignore` был создан коммит `8b0566a` с комментарием «Добавлены скриншоты и настроено исключение служебных файлов».
+
+Далее в редакторе Visual Studio Code был подготовлен отчёт в файле `README.md` с использованием языка разметки Markdown. В документ были добавлены описание выполненных операций, скриншоты и подписи к ним.
+
+Изменения были зафиксированы коммитом `0d217ce` с комментарием «Добавлено описание выполнения лабораторной работы».
+
+## 4. Лог использованных команд
+
+Ниже приведён лог основных команд, использованных при выполнении лабораторной работы, без результатов их выполнения.
+
+```bash
+git --version
+git config --global user.name "4517 Дробин Б. С."
+git config --global user.email "bogdanich07@gmail.com"
+
+git clone https://github.com/drobinbogdan/LR6.git
+cd LR6
+git status
+
+git pull origin master
+ls
+cat test.txt
+git status
+
+git branch -a
+git log --all --oneline --graph --decorate
+git log origin/branch1 --oneline
+git log -p -1 origin/branch1
+git diff master origin/branch1 -- mergefile.txt
+
+git status
+git switch --track origin/branch1
+git switch master
+git merge branch1
+
+cat mergefile.txt
+open -e mergefile.txt
+git diff --check
+git add mergefile.txt
+git status
+git commit -m "Разрешён конфликт при слиянии branch1 в master"
+
+git log --oneline --graph --all --decorate
+git branch -d branch1
+git branch
+git status
+
+echo "Первое изменение для лабораторной работы №6." > changes.txt
+cat changes.txt
+git status
+git add changes.txt
+git commit -m "Добавлен файл с первым изменением"
+
+echo "Второе изменение файла." >> changes.txt
+git add changes.txt
+git commit -m "Добавлено второе изменение"
+
+echo "Третье изменение файла для проверки отката." >> changes.txt
+git add changes.txt
+git commit -m "Добавлено третье изменение"
+
+git log -3 --oneline
+cat changes.txt
+git revert --no-edit HEAD
+cat changes.txt
+git log -4 --oneline
+git status
+
+git switch -c report
+git branch
+git status
+mkdir screenshots
+open screenshots
+ls -1 screenshots
+git status
+
+echo ".DS_Store" >> .gitignore
+git status
+git add screenshots/ .gitignore
+git commit -m "Добавлены скриншоты и настроено исключение служебных файлов"
+
+git status
+git log -1 --oneline
+code README.md
+git status
+git diff --check
+git add README.md
+git commit -m "Добавлено описание выполнения лабораторной работы"
+
+git log -2 --oneline
+git status
+```
